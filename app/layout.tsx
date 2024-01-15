@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import './globals.css';
-import { HomeMeta } from '@/Meta/home';
+import { HomeMeta } from '@/meta/Home';
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['400', '700'] });
 const { title, description } = HomeMeta;
