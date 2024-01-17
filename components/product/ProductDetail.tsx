@@ -6,6 +6,9 @@ import React, { use } from 'react';
 import SplitLine from '../SplitLine';
 import { CartProductType, SelectedImgType } from '@/types/CartProduct';
 import ColorPicker from './ColorPicker';
+import QuantityPicker from './QuantityPicker';
+import Button from '../button/Button';
+import ProductImages from './ProductImages';
 
 interface Props {
   product: any;
@@ -44,9 +47,28 @@ const ProductDetail: React.FC<Props> = (props) => {
     setCartProduct((prev) => ({ ...prev, selectedImg: value }));
   }, []);
 
+  const onDecreaseQty = React.useCallback(() => {
+    if (cartProduct.quantity === 1) {
+      return;
+    }
+    setCartProduct((prev) => ({ ...prev, quantity: prev.quantity - 1 }));
+  }, [cartProduct.quantity]);
+  const onIncreateQty = React.useCallback(() => {
+    if (cartProduct.quantity === 5) {
+      return;
+    }
+    setCartProduct((prev) => ({ ...prev, quantity: prev.quantity + 1 }));
+  }, [cartProduct.quantity]);
+
   return (
-    <div className='grid grid-cols-1 md:grid-cols-2'>
-      <div>Image</div>
+    <div className='grid grid-cols-1 md:grid-cols-2 gap-12'>
+      <div>
+        <ProductImages
+          cartProduct={cartProduct}
+          product={product}
+          onColorSelect={onChangeColor}
+        />
+      </div>
       <div className='flex flex-col gap-1 text-slate-500 text-sm'>
         <h2 className='text-3xl font-medium text-slate-700'>{product.name}</h2>
         <div className='flex items-center gap-2'>
@@ -75,9 +97,18 @@ const ProductDetail: React.FC<Props> = (props) => {
           />
         </div>
         <SplitLine />
-        <div>quantity</div>
+        <div>
+          <QuantityPicker
+            cartCounter={false}
+            cartProduct={cartProduct}
+            onDecrease={onDecreaseQty}
+            onIncreate={onIncreateQty}
+          />
+        </div>
         <SplitLine />
-        <div>add to cart</div>
+        <div className='max-w-[300px]'>
+          <Button label='Add to Cart' onclick={() => {}} />
+        </div>
       </div>
     </div>
   );
