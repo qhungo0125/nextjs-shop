@@ -18,18 +18,23 @@ export const CartContextProvider = (props: Props) => {
     null,
   );
 
+  React.useEffect(() => {
+    const cart = localStorage.getItem('cart');
+    if (cart) {
+      setProducts(JSON.parse(cart));
+    }
+  }, []);
+
   const addToCart = React.useCallback((product: CartProductType) => {
     setProducts((prev) => {
+      let updated;
       if (!prev) {
-        return [product];
+        updated = [product];
+      } else {
+        updated = [...prev, product];
       }
-      const productIndex = prev.findIndex((p) => p.id === product.id);
-      if (productIndex === -1) {
-        return [...prev, product];
-      }
-      const newProducts = [...prev];
-      newProducts[productIndex] = product;
-      return newProducts;
+      localStorage.setItem('cart', JSON.stringify(updated));
+      return updated;
     });
   }, []);
   const value = {
