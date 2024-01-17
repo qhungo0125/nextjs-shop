@@ -1,3 +1,6 @@
+import Container from '@/components/container/Container';
+import ProductDetail from '@/components/product/ProductDetail';
+import { products } from '@/data/products';
 import React from 'react';
 interface Props {
   params: {
@@ -11,7 +14,13 @@ const ProductPage: React.FC<Props> = (props) => {
 
   console.log(productId);
 
-  return <div>ProductPage</div>;
+  return (
+    <div>
+      <Container>
+        <ProductDetail product={products[1]} />
+      </Container>
+    </div>
+  );
 };
 
 export default ProductPage;
