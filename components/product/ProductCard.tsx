@@ -1,3 +1,4 @@
+import { calculateRating } from '@/utils/calculate';
 import { priceFormatter } from '@/utils/text';
 import { Rating } from '@mui/material';
 import Image from 'next/image';
@@ -10,10 +11,7 @@ interface Props {
 
 const ProductCard: React.FC<Props> = ({ product }) => {
   const rating = React.useMemo(() => {
-    const total = product.reviews.reduce((acc: number, item: any) => {
-      return acc + item.rating;
-    }, 0);
-    return total / product.reviews.length;
+    return calculateRating(product.reviews);
   }, [product.reviews]);
 
   return (
