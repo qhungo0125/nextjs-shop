@@ -9,6 +9,9 @@ import ColorPicker from './ColorPicker';
 import QuantityPicker from './QuantityPicker';
 import Button from '../button/Button';
 import ProductImages from './ProductImages';
+import { useCart } from '@/hooks/useCart';
+import { MdCheckCircle } from 'react-icons/md';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   product: any;
@@ -16,6 +19,11 @@ interface Props {
 
 const ProductDetail: React.FC<Props> = (props) => {
   const { product } = props;
+  const cartState = useCart();
+  const router = useRouter();
+  const { addToCart, products: cartProducts } = cartState;
+  console.log(cartProducts);
+
   const {
     name,
     reviews,
@@ -28,6 +36,7 @@ const ProductDetail: React.FC<Props> = (props) => {
     price,
   } = product;
 
+  const [isInCart, setIsInCart] = React.useState(false);
   const [cartProduct, setCartProduct] = React.useState<CartProductType>({
     id,
     name,
@@ -38,6 +47,16 @@ const ProductDetail: React.FC<Props> = (props) => {
     quantity: 1,
     price,
   });
+
+  React.useEffect(() => {
+    setIsInCart(false);
+    if (cartProducts) {
+      const isInCart = cartProducts?.findIndex((p: any) => p.id === product.id);
+      if (isInCart > -1) {
+        setIsInCart(true);
+      }
+    }
+  }, [cartProducts, product.id]);
 
   const rating = React.useMemo(() => {
     return calculateRating(reviews);
@@ -88,27 +107,49 @@ const ProductDetail: React.FC<Props> = (props) => {
         <div className={inStock ? 'text-teal-400' : 'text-rose-400'}>
           {inStock ? 'In Stock' : 'Out of Stock'}
         </div>
-        <SplitLine />
-        <div>
-          <ColorPicker
-            cartProduct={cartProduct}
-            images={images}
-            onChangeColor={onChangeColor}
-          />
-        </div>
-        <SplitLine />
-        <div>
-          <QuantityPicker
-            cartCounter={false}
-            cartProduct={cartProduct}
-            onDecrease={onDecreaseQty}
-            onIncreate={onIncreateQty}
-          />
-        </div>
-        <SplitLine />
-        <div className='max-w-[300px]'>
-          <Button label='Add to Cart' onclick={() => {}} />
-        </div>
+        {!isInCart ? (
+          <>
+            <SplitLine />
+            <div>
+              <ColorPicker
+                cartProduct={cartProduct}
+                images={images}
+                onChangeColor={onChangeColor}
+              />
+            </div>
+            <SplitLine />
+            <div>
+              <QuantityPicker
+                cartCounter={false}
+                cartProduct={cartProduct}
+                onDecrease={onDecreaseQty}
+                onIncreate={onIncreateQty}
+              />
+            </div>
+            <SplitLine />
+            <div className='max-w-[300px]'>
+              <Button
+                label='Add to Cart'
+                onclick={() => {
+                  addToCart(cartProduct);
+                }}
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            <p className='mb-2 text-slate-500 flex items-center gap-1'>
+              <MdCheckCircle className='text-teal-400' size={20} />
+              <span>Product is added to cart</span>
+            </p>
+            <Button
+              label='Go to Cart'
+              onclick={() => {
+                router.push('/cart');
+              }}
+            />
+          </>
+        )}
       </div>
     </div>
   );
