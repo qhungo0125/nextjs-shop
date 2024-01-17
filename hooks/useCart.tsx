@@ -42,8 +42,8 @@ export const CartContextProvider = (props: Props) => {
 };
 
 export const useCart = () => {
-  const context = React.useContext<CartContextType | null>(CartContext);
-  if (context === undefined) {
+  const context = React.useContext(CartContext);
+  if (!context || context === undefined) {
     throw new Error('useCart must be used within a CartProvider');
   }
   return context;

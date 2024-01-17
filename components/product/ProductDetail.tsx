@@ -19,10 +19,8 @@ interface Props {
 
 const ProductDetail: React.FC<Props> = (props) => {
   const { product } = props;
-  const cartState = useCart();
   const router = useRouter();
-  const { addToCart, products: cartProducts } = cartState;
-  console.log(cartProducts);
+  const { addToCart, products: cartProducts } = useCart();
 
   const {
     name,
