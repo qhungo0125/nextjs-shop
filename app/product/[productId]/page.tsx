@@ -17,7 +17,7 @@ const ProductPage: React.FC<Props> = (props) => {
   return (
     <div>
       <Container>
-        <ProductDetail product={products[1]} />
+        <ProductDetail product={products[2]} />
       </Container>
     </div>
   );

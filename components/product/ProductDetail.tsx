@@ -1,7 +1,11 @@
+'use client';
+
 import { calculateRating } from '@/utils/calculate';
 import { Rating } from '@mui/material';
-import React from 'react';
+import React, { use } from 'react';
 import SplitLine from '../SplitLine';
+import { CartProductType, SelectedImgType } from '@/types/CartProduct';
+import ColorPicker from './ColorPicker';
 
 interface Props {
   product: any;
@@ -9,11 +13,36 @@ interface Props {
 
 const ProductDetail: React.FC<Props> = (props) => {
   const { product } = props;
-  const { reviews, description, category, inStock, brand } = product;
+  const {
+    name,
+    reviews,
+    description,
+    category,
+    inStock,
+    brand,
+    id,
+    images,
+    price,
+  } = product;
+
+  const [cartProduct, setCartProduct] = React.useState<CartProductType>({
+    id,
+    name,
+    description,
+    category,
+    brand,
+    selectedImg: images[0],
+    quantity: 1,
+    price,
+  });
 
   const rating = React.useMemo(() => {
     return calculateRating(reviews);
   }, [reviews]);
+
+  const onChangeColor = React.useCallback((value: SelectedImgType) => {
+    setCartProduct((prev) => ({ ...prev, selectedImg: value }));
+  }, []);
 
   return (
     <div className='grid grid-cols-1 md:grid-cols-2'>
@@ -38,7 +67,13 @@ const ProductDetail: React.FC<Props> = (props) => {
           {inStock ? 'In Stock' : 'Out of Stock'}
         </div>
         <SplitLine />
-        <div>color</div>
+        <div>
+          <ColorPicker
+            cartProduct={cartProduct}
+            images={images}
+            onChangeColor={onChangeColor}
+          />
+        </div>
         <SplitLine />
         <div>quantity</div>
         <SplitLine />
