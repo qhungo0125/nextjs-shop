@@ -1,12 +1,14 @@
+import { getUser } from '@/actions/getUser';
 import CartDetails from '@/components/cart/CartDetails';
 import Container from '@/components/container/Container';
 import React from 'react';
 
-const CartPage = () => {
+const CartPage = async () => {
+  const currentUser = await getUser();
   return (
     <div className='p-8'>
       <Container>
-        <CartDetails />
+        <CartDetails currentUser={currentUser} />
       </Container>
     </div>
   );
