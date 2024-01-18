@@ -10,8 +10,14 @@ import { FieldValues, SubmitHandler, set, useForm } from 'react-hook-form';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import { SafeUser } from '@/types';
 
-const LoginForm = () => {
+interface Props {
+  currentUser: SafeUser | null;
+}
+
+const LoginForm: React.FC<Props> = (props) => {
+  const { currentUser } = props;
   const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
   const {
@@ -25,6 +31,13 @@ const LoginForm = () => {
       password: '',
     },
   });
+
+  React.useEffect(() => {
+    if (currentUser) {
+      router.push('/cart');
+      router.refresh();
+    }
+  }, [currentUser, router]);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
@@ -45,6 +58,12 @@ const LoginForm = () => {
       })
       .finally(() => setIsLoading(false));
   };
+
+  if (currentUser) {
+    return (
+      <p className='text-center'>You are already logged in. Redirecting...</p>
+    );
+  }
 
   return (
     <>

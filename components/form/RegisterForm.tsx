@@ -10,8 +10,15 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { SafeUser } from '@/types';
 
-const RegisterForm = () => {
+interface Props {
+  currentUser: SafeUser | null;
+}
+
+const RegisterForm: React.FC<Props> = (props) => {
+  const { currentUser } = props;
+
   const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
   const {
@@ -25,6 +32,13 @@ const RegisterForm = () => {
       password: '',
     },
   });
+
+  React.useEffect(() => {
+    if (currentUser) {
+      router.push('/cart');
+      router.refresh();
+    }
+  }, [currentUser, router]);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
@@ -53,6 +67,13 @@ const RegisterForm = () => {
       .finally(() => setIsLoading(false));
     console.log(data);
   };
+
+  if (currentUser) {
+    return (
+      <p className='text-center'>You are already logged in. Redirecting...</p>
+    );
+  }
+
   return (
     <>
       <Heading title='Register' />
