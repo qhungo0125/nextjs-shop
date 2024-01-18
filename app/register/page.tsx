@@ -5,13 +5,11 @@ import React from 'react';
 
 const RegisterPage = () => {
   return (
-    <div>
-      <Container>
-        <FormWrap>
-          <RegisterForm />
-        </FormWrap>
-      </Container>
-    </div>
+    <Container>
+      <FormWrap>
+        <RegisterForm />
+      </FormWrap>
+    </Container>
   );
 };
 

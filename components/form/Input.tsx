@@ -14,6 +14,8 @@ interface Props {
 
 const Input: React.FC<Props> = (props) => {
   const { id, label, type, disabled, required, register, errors } = props;
+  console.log(errors);
+
   return (
     <div className='w-full relative'>
       <input
@@ -24,7 +26,7 @@ const Input: React.FC<Props> = (props) => {
         placeholder=''
         type={type}
         className={`
-        peer 
+        peer
         w-full 
         p-4 
         pt-6 
@@ -45,12 +47,21 @@ const Input: React.FC<Props> = (props) => {
       />
       <label
         htmlFor={id}
-        className='\
-      absolute cursor-text text-md duration-150 transform -translate-y-3 top-5 z-10 origin-[0] left-4 
+        className='
+      absolute 
+      cursor-text 
+      text-md 
+      duration-150 
+      transform 
+      -translate-y-3 
+      top-5 
+      z-10 
+      origin-[0] 
+      left-4 
       peer-placeholder-shown:scale-100
       peer-placeholder-shown:translate-y-0
-      peer-focus: scale-75
-      peer-focus:translate-y-4
+      peer-focus:scale-75
+      peer-focus:-translate-y-4
       '
       >
         {label}
