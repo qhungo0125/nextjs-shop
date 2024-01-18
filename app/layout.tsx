@@ -6,6 +6,7 @@ import NavBar from '@/components/navigation/NavBar';
 import Footer from '@/components/footer/Footer';
 import CartProvider from '@/providers/CartProvider';
 import { Toaster } from 'react-hot-toast';
+import { getUser } from '@/actions/getUser';
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['400', '700'] });
 const { title, description } = HomeMeta;
@@ -15,12 +16,11 @@ export const metadata: Metadata = {
   description: description,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  console.log('layout');
   return (
     <html lang='en'>
       <body className={`${poppins.className} text-slate-700`}>
