@@ -27,7 +27,7 @@ const UserMenu: React.FC<Props> = (props) => {
         items-center gap-1 rounded-full cursor-pointer hover:shadow-md transition text-slate-700
         '
         >
-          <UserAvatar />
+          <UserAvatar src={currentUser?.image} />
           <AiFillCaretDown />
         </div>
         {open && (
