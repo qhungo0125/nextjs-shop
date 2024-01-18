@@ -6,9 +6,10 @@ import { MdArrowBack } from 'react-icons/md';
 import Heading from '../Heading';
 import Button from '../button/Button';
 import CartItem from './CartItem';
+import { priceFormatter } from '@/utils/text';
 
 const CartDetails = () => {
-  const { products, clearCart } = useCart();
+  const { products, clearCart, cartTotal } = useCart();
 
   if (!products || products.length === 0) {
     return (
@@ -56,7 +57,7 @@ const CartDetails = () => {
           <div>
             <div className='flex justify-between font-semibold text-base'>
               <span>subtotal:</span>
-              <span>$1000</span>
+              <span>{priceFormatter(cartTotal)}</span>
             </div>
             <p>included taxes and shipping fee</p>
             <Button label='checkout' onclick={() => {}} />
