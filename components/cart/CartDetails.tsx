@@ -8,7 +8,7 @@ import Button from '../button/Button';
 import CartItem from './CartItem';
 
 const CartDetails = () => {
-  const { products } = useCart();
+  const { products, clearCart } = useCart();
 
   if (!products || products.length === 0) {
     return (
@@ -43,7 +43,14 @@ const CartDetails = () => {
 
       <div className='border-t-[1.5px] border-slate-200 py-4 flex justify-between gap-4'>
         <div className='w-[90px]'>
-          <Button label='clear cart' onclick={() => {}} small outLine />
+          <Button
+            label='clear cart'
+            onclick={() => {
+              clearCart();
+            }}
+            small
+            outLine
+          />
         </div>
         <div className='text-sm flex flex-col gap-1 items-start'>
           <div>

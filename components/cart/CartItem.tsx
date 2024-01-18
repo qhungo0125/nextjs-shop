@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import QuantityPicker from '../product/QuantityPicker';
+import { useCart } from '@/hooks/useCart';
 
 interface Props {
   product: CartProductType;
@@ -11,6 +12,7 @@ interface Props {
 
 const CartItem: React.FC<Props> = (props) => {
   const { product } = props;
+  const { removeFromCart, decreaseQty, increaseQty } = useCart();
   const { name, price, quantity, selectedImg } = product;
   return (
     <div className='grid grid-cols-5 text-xs md:text-sm gap-4 border-[1.5px] border-slate-200 py-4 items-center'>
@@ -29,7 +31,12 @@ const CartItem: React.FC<Props> = (props) => {
           <Link href={`/products/${product.id}`}>{name}</Link>
           <div>{selectedImg.color}</div>
           <div className='w-[70px]'>
-            <button className='text-slate-500 underline' onClick={() => {}}>
+            <button
+              className='text-slate-500 underline'
+              onClick={() => {
+                removeFromCart(product);
+              }}
+            >
               remove
             </button>
           </div>
@@ -40,8 +47,12 @@ const CartItem: React.FC<Props> = (props) => {
         <QuantityPicker
           cartCounter
           cartProduct={product}
-          onDecrease={() => {}}
-          onIncreate={() => {}}
+          onDecrease={() => {
+            decreaseQty(product);
+          }}
+          onIncreate={() => {
+            increaseQty(product);
+          }}
         />
       </div>
       <div className='justify-self-end font-semibold'>
