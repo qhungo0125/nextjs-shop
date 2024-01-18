@@ -43,6 +43,44 @@ export async function POST(request: Request) {
   };
 
   if (payment_intent_id) {
+    const current_itent = await stripe.paymentIntents.retrieve(
+      payment_intent_id,
+    );
+    if (current_itent) {
+      const updated_itent = await stripe.paymentIntents.update(
+        payment_intent_id,
+        { amount: total },
+      );
+
+      const [existingOrder, updateOrder] = await Promise.all([
+        prisma.order.findFirst({
+          where: {
+            paymentIntentId: payment_intent_id,
+          },
+        }),
+        prisma.order.update({
+          where: {
+            paymentIntentId: payment_intent_id,
+          },
+          data: {
+            amount: total,
+            products: items,
+          },
+        }),
+      ]);
+
+      if (!existingOrder) {
+        return NextResponse.json(
+          {
+            error: 'Invalid payment intent id',
+          },
+          { status: 404 },
+        );
+      }
+      return NextResponse.json({ paymentIntent: updated_itent });
+    }
+
+    // update
   } else {
     // create intent
     const paymentIntent = await stripe.paymentIntents.create({
@@ -50,10 +88,13 @@ export async function POST(request: Request) {
       currency: 'usd',
       automatic_payment_methods: { enabled: true },
     });
-    orderData.paymentIntentId = paymentIntent.id;
 
     // create order
-  }
+    orderData.paymentIntentId = paymentIntent.id;
 
-  return NextResponse.json({});
+    await prisma.order.create({
+      data: orderData,
+    });
+    return NextResponse.json({ paymentIntent });
+  }
 }
