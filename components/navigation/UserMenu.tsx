@@ -6,8 +6,14 @@ import Link from 'next/link';
 import { MenuItem } from '@mui/material';
 import { signOut } from 'next-auth/react';
 import BackDrop from './BackDrop';
+import { SafeUser } from '@/types';
 
-const UserMenu = () => {
+interface Props {
+  currentUser: SafeUser;
+}
+
+const UserMenu: React.FC<Props> = (props) => {
+  const { currentUser } = props;
   const [open, setOpen] = React.useState(false);
   const toggleMenu = () => {
     setOpen((pre) => !pre);
@@ -26,32 +32,36 @@ const UserMenu = () => {
         </div>
         {open && (
           <div className='absolute rounded-md shadow-md w-[170px] bg-white overflow-hidden right-0 top-12 text-sm flex flex-col cursor-pointer'>
-            <div>
-              <Link href={'/cart'}>
-                <MenuItem onClick={() => toggleMenu()}>Your order</MenuItem>
-              </Link>
-              <Link href={'/admin'}>
-                <MenuItem onClick={() => toggleMenu()}>
-                  Admin Dashboard
+            {currentUser ? (
+              <div>
+                <Link href={'/cart'}>
+                  <MenuItem onClick={() => toggleMenu()}>Your order</MenuItem>
+                </Link>
+                <Link href={'/admin'}>
+                  <MenuItem onClick={() => toggleMenu()}>
+                    Admin Dashboard
+                  </MenuItem>
+                </Link>
+                <hr />
+                <MenuItem
+                  onClick={() => {
+                    toggleMenu();
+                    signOut();
+                  }}
+                >
+                  Log out
                 </MenuItem>
-              </Link>
-              <MenuItem
-                onClick={() => {
-                  toggleMenu();
-                  signOut();
-                }}
-              >
-                Log out
-              </MenuItem>
-            </div>
-            <div>
-              <Link href={'/login'}>
-                <MenuItem onClick={() => toggleMenu()}>Log in</MenuItem>
-              </Link>
-              <Link href={'/register'}>
-                <MenuItem onClick={() => toggleMenu()}>Register</MenuItem>
-              </Link>
-            </div>
+              </div>
+            ) : (
+              <div>
+                <Link href={'/login'}>
+                  <MenuItem onClick={() => toggleMenu()}>Log in</MenuItem>
+                </Link>
+                <Link href={'/register'}>
+                  <MenuItem onClick={() => toggleMenu()}>Register</MenuItem>
+                </Link>
+              </div>
+            )}
           </div>
         )}
       </div>
