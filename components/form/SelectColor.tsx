@@ -22,10 +22,13 @@ const SelectColor: React.FC<Props> = (props) => {
     }
   }, [isProductCreated]);
 
-  const handleFileChange = React.useCallback((value: File) => {
-    setFile(value);
-    addImage({ ...item, image: value });
-  }, []);
+  const handleFileChange = React.useCallback(
+    (value: File) => {
+      setFile(value);
+      addImage({ ...item, image: value });
+    },
+    [item, addImage],
+  );
 
   const handleCheck = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,7 +38,7 @@ const SelectColor: React.FC<Props> = (props) => {
         removeImage(item);
       }
     },
-    [],
+    [isSelected, item, removeImage],
   );
 
   return (
@@ -44,8 +47,8 @@ const SelectColor: React.FC<Props> = (props) => {
         <input
           id={item.color}
           type='checkbox'
-          checked={isSelected}
           onChange={handleCheck}
+          checked={isSelected}
           className='cursor-pointer'
         />
         <label htmlFor={item.color} className='font-medium cursor-pointer'>
