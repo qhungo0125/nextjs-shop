@@ -7,9 +7,17 @@ import Heading from '../Heading';
 import Button from '../button/Button';
 import CartItem from './CartItem';
 import { priceFormatter } from '@/utils/text';
+import { useRouter } from 'next/navigation';
+import { SafeUser } from '@/types';
 
-const CartDetails = () => {
+interface Props {
+  currentUser: SafeUser | null;
+}
+
+const CartDetails: React.FC<Props> = (props) => {
+  const { currentUser } = props;
   const { products, clearCart, cartTotal } = useCart();
+  const router = useRouter();
 
   if (!products || products.length === 0) {
     return (
@@ -60,7 +68,12 @@ const CartDetails = () => {
               <span>{priceFormatter(cartTotal)}</span>
             </div>
             <p>included taxes and shipping fee</p>
-            <Button label='checkout' onclick={() => {}} />
+            <Button
+              label={currentUser ? 'checkout' : 'Login to checkout'}
+              onclick={() => {
+                currentUser ? router.push('/checkout') : router.push('/login');
+              }}
+            />
             <Link
               className='text-slate-500 flex items-center gap-1 mt-2'
               href={'/'}
