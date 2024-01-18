@@ -81,7 +81,9 @@ const RegisterForm: React.FC<Props> = (props) => {
         outLine
         label='Sign up with Google'
         icon={AiOutlineGoogle}
-        onclick={() => {}}
+        onclick={() => {
+          signIn('google');
+        }}
       />
       <hr className='bg-slate-300 w-full h-px' />
       <Input
