@@ -1,6 +1,7 @@
 import React from 'react';
 import Container from '../container/Container';
 import Link from 'next/link';
+import CartCount from './CartCount';
 
 const NavBar = () => {
   return (
@@ -11,7 +12,9 @@ const NavBar = () => {
             <Link href='/'>Home</Link>
             <div className='hidden md:block'>Search</div>
             <div className='flex items-center gap-8 md:gap-12'>
-              <div>Cart count</div>
+              <div>
+                <CartCount />
+              </div>
               <div>user Menu</div>
             </div>
           </div>

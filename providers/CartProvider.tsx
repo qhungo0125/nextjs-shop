@@ -7,6 +7,7 @@ interface Props {
 }
 
 const CartProvider: React.FC<Props> = (props) => {
+  console.log('cart provider');
   const { children } = props;
   return <CartContextProvider>{children}</CartContextProvider>;
 };

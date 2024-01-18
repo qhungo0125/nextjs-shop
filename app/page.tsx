@@ -2,10 +2,11 @@ import Container from '@/components/container/Container';
 import Banner from '@/components/homebanner/Banner';
 import ProductCard from '@/components/product/ProductCard';
 import { products } from '@/data/products';
-import { truncate } from '@/utils/text';
 import React from 'react';
 
 const Home = () => {
+  console.log('home');
+
   return (
     <div className='p-8'>
       <Container>
