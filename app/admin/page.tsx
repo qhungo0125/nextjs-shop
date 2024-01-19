@@ -1,7 +1,21 @@
+import getOrders from '@/actions/getOrders';
+import getProducts from '@/actions/getProducts';
+import getUsers from '@/actions/getUsers';
+import Summary from '@/components/admin/summary/Summary';
+import Container from '@/components/container/Container';
 import React from 'react';
 
-const AdminPage = () => {
-  return <div className='pt-8'>AdminPage</div>;
+const AdminPage = async () => {
+  const products = await getProducts();
+  const orders = await getOrders();
+  const users = await getUsers();
+  return (
+    <div className='pt-8'>
+      <Container>
+        <Summary products={products} orders={orders} users={users} />
+      </Container>
+    </div>
+  );
 };
 
 export default AdminPage;
