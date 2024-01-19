@@ -17,6 +17,10 @@ const ProductRatings: React.FC<Props> = (props) => {
     return calculateRating(reviews);
   }, [reviews]);
 
+  if (product.reviews.length === 0) {
+    return null;
+  }
+
   return (
     <div>
       <Heading title='Product Review' />
