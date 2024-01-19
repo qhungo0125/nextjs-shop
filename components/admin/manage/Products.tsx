@@ -4,6 +4,8 @@ import { Product } from '@prisma/client';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { priceFormatter } from '@/utils/text';
 import Heading from '@/components/Heading';
+import Status from '../Status';
+import { MdDone } from 'react-icons/md';
 
 interface Props {
   products: Product[];
@@ -48,7 +50,21 @@ const Products: React.FC<Props> = (props) => {
       renderCell: (params) => {
         return (
           <div className='font-bold text-slate-800'>
-            {params.row.inStock ? 'Yes' : 'No'}
+            {params.row.inStock ? (
+              <Status
+                text='In Stock'
+                icon={MdDone}
+                bg='bg-teal-200'
+                color='text-teal-800'
+              />
+            ) : (
+              <Status
+                text='Out of Stock'
+                icon={MdDone}
+                bg='bg-red-200'
+                color='text-red-800'
+              />
+            )}
           </div>
         );
       },
