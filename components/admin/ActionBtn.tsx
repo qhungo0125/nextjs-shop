@@ -11,6 +11,8 @@ const ActionBtn: React.FC<Props> = (props) => {
   const { icon: Icon, onClick, disabled } = props;
   return (
     <button
+      onClick={onClick}
+      disabled={disabled}
       className={`flex items-center justify-center rounded cursor-pointer w-[40px] h-[30px] text-slate-700 border border-slate-400
   ${
     disabled

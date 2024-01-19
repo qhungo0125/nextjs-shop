@@ -5,7 +5,13 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { priceFormatter } from '@/utils/text';
 import Heading from '@/components/Heading';
 import Status from '../Status';
-import { MdDone } from 'react-icons/md';
+import { MdCached, MdDelete, MdDone, MdRemoveRedEye } from 'react-icons/md';
+import ActionBtn from '../ActionBtn';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import { deleteObject, getStorage, ref } from 'firebase/storage';
+import firebaseApp from '@/libs/firebase';
 
 interface Props {
   products: Product[];
@@ -13,6 +19,8 @@ interface Props {
 
 const Products: React.FC<Props> = (props) => {
   const { products } = props;
+  const router = useRouter();
+  const storage = getStorage(firebaseApp);
 
   let rows: any = [];
 
@@ -74,10 +82,78 @@ const Products: React.FC<Props> = (props) => {
       headerName: 'Actions',
       width: 200,
       renderCell: (params) => {
-        return <div className='font-bold text-slate-800'>action</div>;
+        return (
+          <div className='flex justify-between gap-4 w-full'>
+            <ActionBtn
+              icon={MdCached}
+              onClick={() => {
+                onChangeStock(params.row.id, !params.row.inStock);
+              }}
+            />
+            <ActionBtn
+              icon={MdDelete}
+              onClick={() => {
+                onDeleteProduct(params.row.id, params.row.images);
+              }}
+            />
+            <ActionBtn icon={MdRemoveRedEye} onClick={() => {}} />
+          </div>
+        );
       },
     },
   ];
+
+  const onChangeStock = React.useCallback(
+    (id: string, inStock: boolean) => {
+      // toast.loading('Updating product instock...');
+      axios
+        .put('/api/product', {
+          id,
+          inStock,
+        })
+        .then((rs) => {
+          toast.success('Update success');
+          router.refresh();
+        })
+        .catch((err) => {
+          toast.error('Update failed');
+        });
+    },
+    [router],
+  );
+
+  const onDeleteProduct = React.useCallback(
+    async (id: string, images: any[]) => {
+      toast('Deleting product instock...');
+
+      const deleteFireBaseImg = async () => {
+        try {
+          for (const item of images) {
+            if (item.image) {
+              const imgRef = ref(storage, item.image);
+              await deleteObject(imgRef);
+              console.log('delete image success');
+            }
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      await deleteFireBaseImg();
+
+      axios
+        .delete(`/api/product/${id}`)
+        .then((rs) => {
+          toast.success('Delete success');
+          router.refresh();
+        })
+        .catch((err) => {
+          toast.error('Delete failed');
+        });
+    },
+    [router, storage],
+  );
 
   return (
     <div className='max-w-[1150px] m-auto text-xl'>
