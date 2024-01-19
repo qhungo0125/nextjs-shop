@@ -1,3 +1,5 @@
+export const revalidate = 0;
+
 import getProducts, { ProductParams } from '@/actions/getProducts';
 import InvalidData from '@/components/InvalidData';
 import Container from '@/components/container/Container';
