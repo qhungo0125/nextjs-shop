@@ -14,7 +14,7 @@ const CategoryItem: React.FC<Props> = (props) => {
   const params = useSearchParams();
 
   const onCLick = React.useCallback(() => {
-    if (label === 'All') {
+    if (label === 'all') {
       router.push('/');
       return;
     }
