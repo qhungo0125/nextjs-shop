@@ -8,3 +8,7 @@ export const priceFormatter = (price: number) => {
     currency: 'USD',
   }).format(price);
 };
+
+export const numberFormatter = (num: number) => {
+  return new Intl.NumberFormat('en-US').format(num);
+};
