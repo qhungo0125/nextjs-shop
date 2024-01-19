@@ -1,4 +1,8 @@
+import getProduct from '@/actions/getProduct';
+import { getUser } from '@/actions/getUser';
+import InvalidData from '@/components/InvalidData';
 import Container from '@/components/container/Container';
+import AddRating from '@/components/product/AddRating';
 import ProductDetail from '@/components/product/ProductDetail';
 import Ratings from '@/components/product/Ratings';
 import { products } from '@/data/products';
@@ -9,18 +13,23 @@ interface Props {
   };
 }
 
-const ProductPage: React.FC<Props> = (props) => {
+const ProductPage: React.FC<Props> = async (props) => {
   const { params } = props;
   const { productId } = params;
+  const product = await getProduct({ productId });
+  const currentUser = await getUser();
+
+  if (!product) {
+    return <InvalidData title='No product' />;
+  }
 
   return (
     <div className='p-8'>
       <Container>
-        <ProductDetail product={products.find((p) => p.id === productId)} />
+        <ProductDetail product={product} />
         <div className='flex flex-col mt-20 gap-4'>
-          <div>Add rating</div>
-          <div>List</div>
-          <Ratings product={products.find((p) => p.id === productId)} />
+          <AddRating product={product} user={currentUser} />
+          <Ratings product={product} />
         </div>
       </Container>
     </div>

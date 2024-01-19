@@ -87,7 +87,7 @@ const CheckoutDetail = () => {
             <Button
               label='View order'
               onclick={() => {
-                router.push('/order');
+                router.push('/orders');
               }}
             />
           </div>
