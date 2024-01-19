@@ -1,11 +1,21 @@
+import getProducts, { ProductParams } from '@/actions/getProducts';
+import InvalidData from '@/components/InvalidData';
 import Container from '@/components/container/Container';
 import Banner from '@/components/homebanner/Banner';
 import ProductCard from '@/components/product/ProductCard';
-import { products } from '@/data/products';
 import React from 'react';
 
-const Home = () => {
-  console.log('home');
+interface Props {
+  searchParams: ProductParams;
+}
+
+const Home: React.FC<Props> = async (props) => {
+  const { searchParams } = props;
+  const products = await getProducts(searchParams);
+
+  if (products.length === 0) {
+    return <InvalidData title='No products' />;
+  }
 
   return (
     <div className='p-8'>
