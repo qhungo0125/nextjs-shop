@@ -1,7 +1,19 @@
+import AdminNav from '@/components/admin/nav/AdminNav';
+import { Metadata } from 'next';
 import React from 'react';
 
-const layout = () => {
-  return <div>layout</div>;
+export const metadata: Metadata = {
+  title: 'Admin page',
+  description: 'Admin description',
 };
 
-export default layout;
+const AdminLayout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div>
+      <AdminNav />
+      {children}
+    </div>
+  );
+};
+
+export default AdminLayout;
