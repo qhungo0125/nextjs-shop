@@ -11,7 +11,7 @@ import moment from 'moment';
 import OrderItem from './OrderItem';
 
 interface Props {
-  order: Order;
+  order: Order | null;
 }
 
 const OrderDetail: React.FC<Props> = (props) => {
