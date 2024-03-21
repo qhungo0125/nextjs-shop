@@ -39,10 +39,10 @@ const CartDetails: React.FC<Props> = (props) => {
     <div>
       <Heading title='Shopping cart' center />
       <div className='grid grid-cols-5 text-xs gap-4 mb-2 items-center'>
-        <div className='col-span-2 justify-self-start'>product</div>
-        <div className='justify-self-center'>price</div>
-        <div className='justify-self-center'>quantity</div>
-        <div className='justify-self-end'>total</div>
+        <div className='uppercase col-span-2 justify-self-start'>product</div>
+        <div className='uppercase justify-self-center'>price</div>
+        <div className='uppercase justify-self-center'>quantity</div>
+        <div className='uppercase justify-self-end'>total</div>
       </div>
       <div>
         {products.map((product) => {

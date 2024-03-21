@@ -54,7 +54,7 @@ const CategoryItem: React.FC<Props> = (props) => {
   `}
     >
       <Icon size={20} />
-      <div className='font-medium text-sm'>{label}</div>
+      <div className='font-medium text-sm ml-2 uppercase'>{label}</div>
     </div>
   );
 };
