@@ -20,16 +20,16 @@ const CartItem: React.FC<Props> = (props) => {
         <Link href={`/products/${product.id}`}>
           <div className='relative w-[70px] aspect-square'>
             <Image
-              src={selectedImg.image}
+              src={selectedImg && selectedImg.image}
               fill
-              alt={selectedImg.image}
+              alt={selectedImg && selectedImg.image}
               className='object-contain'
             />
           </div>
         </Link>
         <div className='flex flex-col justify-between'>
           <Link href={`/products/${product.id}`}>{name}</Link>
-          <div>{selectedImg.color}</div>
+          <div>{selectedImg && selectedImg.color}</div>
           <div className='w-[70px]'>
             <button
               className='text-slate-500 underline'

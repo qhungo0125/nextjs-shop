@@ -12,6 +12,7 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { deleteObject, getStorage, ref } from 'firebase/storage';
 import firebaseApp from '@/libs/firebase';
+import Link from 'next/link';
 
 interface Props {
   products: Product[];
@@ -96,7 +97,12 @@ const Products: React.FC<Props> = (props) => {
                 onDeleteProduct(params.row.id, params.row.images);
               }}
             />
-            <ActionBtn icon={MdRemoveRedEye} onClick={() => {}} />
+            <ActionBtn
+              icon={MdRemoveRedEye}
+              onClick={() => {
+                router.push(`/product/${params.row.id}`);
+              }}
+            ></ActionBtn>
           </div>
         );
       },
@@ -167,7 +173,7 @@ const Products: React.FC<Props> = (props) => {
           initialState={{
             pagination: {
               paginationModel: {
-                pageSize: 5,
+                pageSize: 10,
               },
             },
           }}

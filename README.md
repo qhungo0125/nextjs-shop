@@ -17,3 +17,13 @@ Note:
 ## Prisma
 
 - `$ npx prisma db push`
+
+## Test account
+
+Admin: admin@gmail.com/123
+
+## Turn on stripe in local for auto checkout:
+
+- `$ stripe login`
+- update secret `STRIPE_WEBHOOK_SECRET` if needed
+- `$ stripe listen --forward-to localhost:3000/api/stripe-webhook`

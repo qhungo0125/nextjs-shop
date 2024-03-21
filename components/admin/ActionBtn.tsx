@@ -2,13 +2,14 @@ import React from 'react';
 import { IconType } from 'react-icons';
 
 interface Props {
-  icon: IconType;
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  icon?: IconType;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
+  children?: React.ReactNode;
 }
 
 const ActionBtn: React.FC<Props> = (props) => {
-  const { icon: Icon, onClick, disabled } = props;
+  const { icon: Icon, onClick, disabled, children } = props;
   return (
     <button
       onClick={onClick}
@@ -21,7 +22,8 @@ const ActionBtn: React.FC<Props> = (props) => {
   }
   `}
     >
-      <Icon size={18} />
+      {Icon && <Icon size={18} />}
+      {children}
     </button>
   );
 };

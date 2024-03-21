@@ -164,7 +164,7 @@ const Orders: React.FC<Props> = (props) => {
           initialState={{
             pagination: {
               paginationModel: {
-                pageSize: 5,
+                pageSize: 10,
               },
             },
           }}

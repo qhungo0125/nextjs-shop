@@ -52,13 +52,16 @@ const Summary: React.FC<Props> = (props) => {
       let temp = { ...prev };
 
       const totalSale = orders.reduce((acc, curr) => {
-        if (curr.status === 'complete') {
+        if (curr.status === 'completed') {
+          console.log(curr.status, curr.amount);
+
           return acc + curr.amount;
         }
         return acc;
       }, 0);
+      console.log('totalSale', totalSale);
 
-      const paidOrders = orders.filter((o) => o.status === 'complete');
+      const paidOrders = orders.filter((o) => o.status === 'completed');
       const unpaidOrders = orders.filter((o) => o.status === 'pending');
 
       temp.sale.digit = totalSale;
