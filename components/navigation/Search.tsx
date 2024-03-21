@@ -42,6 +42,11 @@ const Search = () => {
   return (
     <div className='flex items-center'>
       <input
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            handleSubmit(onSubmit)();
+          }
+        }}
         {...register('searchTerm')}
         autoComplete='off'
         placeholder='Search for products'
