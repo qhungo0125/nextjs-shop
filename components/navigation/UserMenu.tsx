@@ -34,9 +34,12 @@ const UserMenu: React.FC<Props> = (props) => {
           <div className='absolute rounded-md shadow-md w-[170px] bg-white overflow-hidden right-0 top-12 text-sm flex flex-col cursor-pointer'>
             {currentUser ? (
               <div>
-                <Link href={'/cart'}>
-                  <MenuItem onClick={() => toggleMenu()}>Your order</MenuItem>
+                <Link href={'/orders'}>
+                  <MenuItem onClick={() => toggleMenu()}>
+                    Orders History
+                  </MenuItem>
                 </Link>
+
                 <Link href={'/admin'}>
                   <MenuItem onClick={() => toggleMenu()}>
                     Admin Dashboard
